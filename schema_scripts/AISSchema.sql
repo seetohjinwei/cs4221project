@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS ais_raw(
+MMSI TEXT,
+BaseDateTime TEXT,
+LAT TEXT,
+LON TEXT,
+SOG TEXT,
+COG TEXT,
+Heading TEXT,
+VesselName TEXT,
+IMO TEXT,
+CallSign TEXT,
+VesselType TEXT,
+Status TEXT,
+Length TEXT,
+Width TEXT,
+Draft TEXT,
+Cargo TEXT,
+TranscieverClass TEXT);
+
+CREATE TABLE vessels (
+MMSI CHAR(9),
+VesselName VARCHAR(32),
+IMO CHAR(10),
+CallSign VARCHAR(8),
+VesselType INTEGER,
+Length NUMERIC,
+Width NUMERIC,
+PRIMARY KEY (MMSI, IMO)
+);
+
+CREATE TABLE messages (
+MMSI CHAR(9),
+IMO CHAR(10),
+BaseDateTime TIMESTAMP,
+LAT NUMERIC,
+LON NUMERIC,
+SOG NUMERIC,
+COG NUMERIC,
+HEADING NUMERIC,
+Status INTEGER,
+Draft NUMERIC,
+Cargo INTEGER,
+TranscieverClass CHAR(1),
+FOREIGN KEY (MMSI, IMO) REFERENCES vessels(MMSI, IMO),
+PRIMARY KEY(MMSI, IMO, BaseDateTime)
+);

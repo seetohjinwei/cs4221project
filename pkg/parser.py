@@ -14,7 +14,7 @@ class Parser:
         Extracts the column name from the row.
         """
 
-        print(row)
+        # print(row)
 
         first_token = row[0]
         token_type, _, _ = first_token
@@ -88,7 +88,7 @@ class Parser:
         column_names: list[str] = []
         constraints: list[Constraint] = []
 
-        print(table_name)
+        # print(table_name)
 
         # skip table name and open parenthesis
         start_index = table_name_index + 1

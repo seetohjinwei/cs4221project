@@ -1,3 +1,5 @@
+from .common import Token
+
 import re
 
 
@@ -10,7 +12,9 @@ class Lexer:
             (r'".*?"|\'.*?\'', "STRING"),  # Quoted strings
             (r"\b\d+\b", "NUMBER"),
             (r"\bCREATE TABLE\b", "CREATE_TABLE"),
+            (r"\bCREATE TYPE\b", "CREATE_TYPE"),
             (r"\bALTER TABLE\b", "ALTER_TABLE"),
+            (r"\bIF NOT EXISTS\b", "IF_NOT_EXISTS"),
             (r"\bIF\b", "IF"),
             (r"\bNOT\b", "NOT"),
             (r"\bAND\b", "AND"),
@@ -56,10 +60,11 @@ class Lexer:
             (r"\bUNIQUE\b", "UNIQUE"),
             (r"\bNULL\b", "NULL"),
             (r"\bTEXT\b", "TEXT"),
+            (r"\bLIKE\b", "LIKE"),
             (r"\b[A-Za-z_][A-Za-z0-9_]*\b", "IDENTIFIER"),
         ]
 
-    def tokenize(self):
+    def tokenize(self) -> list[Token]:
         while self.position < len(self.schema):
             for pattern, token_type in self.token_patterns:
                 regex = re.compile(pattern)

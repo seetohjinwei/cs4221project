@@ -1,5 +1,6 @@
 from pkg.lexer import Lexer
 from pkg.parser import Parser
+from pkg.translator import Translator
 
 
 def start(file_path):
@@ -11,7 +12,11 @@ def start(file_path):
 
     parser = Parser()
     tables = parser.parse(tokens)
-    print(*tables, sep="\n")
+    # print(*tables, sep="\n")
+
+    translator = Translator()
+    triggers = translator.generate_triggers(tables)
+    print(*triggers, sep="\n")
 
     # Remove check constraints from tokens for SQL schema regeneration
     filtered_tokens = parser.remove_check_constraints(tokens)

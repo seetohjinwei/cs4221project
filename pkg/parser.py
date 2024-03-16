@@ -146,3 +146,26 @@ class Parser:
             tables.append(table)
 
         return tables
+
+    def remove_check_constraints(self, tokens: list[Token]) -> list[Token] :
+        """
+        Removes check tokens and constraint tokens from a list of tokens.
+        """
+        CHECK = "CHECK"
+        CONSTRAINT = "CONSTRAINT"
+        filtered_tokens = []
+        iter = 0
+        while iter < len(tokens):
+            token = tokens[iter]
+            token_type = token[0]
+            if token_type == CONSTRAINT:
+                type_of_constraint = tokens[iter + 2]
+                if type_of_constraint[0] == CHECK:
+                    iter += 1 # skips identifier after constraint
+                else:
+                    filtered_tokens.append(token)
+            elif token_type != CHECK:
+                filtered_tokens.append(token)
+            iter += 1
+        
+        return filtered_tokens

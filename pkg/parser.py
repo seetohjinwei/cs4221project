@@ -24,13 +24,14 @@ class Parser:
         return first_token[1]
 
     def extract_expression(self, constraint: str) -> str:
-        p = re.compile(r"CHECK \((.+)\)$")
-        m = p.match(constraint)
-        if m is None:
-            # won't happen because lexer ignores `CHECK ()` <- without anything inside
-            raise InvalidTableException("invalid CHECK constraint")
+        if constraint.startswith("CHECK ("):
+            constraint = constraint[7:]
+        elif constraint.startswith("CHECK("):
+            constraint = constraint[6:]
+        constraint = constraint[:-1]  # remove the ending )
 
-        expression = m.group(1)
+        expression = constraint
+
         return expression
 
     def identify_constraint(self, row: list[Token]) -> Optional[Constraint]:

@@ -27,7 +27,7 @@ class Lexer:
             (r"\bON\b", "ON"),
             (r"\bUPDATE\b", "UPDATE"),
             (r"\bCASCADE\b", "CASCADE"),
-            (r"\bCHECK \((.+?)\)", "CHECK"),  # CHECK constraints
+            (r"\bCHECK\s*\(", "CHECK"),  # CHECK constraints
             (r"\bLENGTH\b", "LENGTH"),
             (r"\bDEFAULT\b", "DEFAULT"),
             (r"VARCHAR\(\d+\)", "VARCHAR"),  # VARCHAR(n)
@@ -72,11 +72,27 @@ class Lexer:
                     self.schema, self.position
                 )  # Continuously match according to position
                 if match:
+                    pos = self.position + len(match.group())
                     if token_type not in ["WHITESPACE"]:  # Ignore whitespace
                         text = match.group()
+                        if token_type == "CHECK":
+                            stack = [1]
+                            pos -= 1  # Adjust for the initial '('
+                            while stack:
+                                pos += 1  # Move to the next character
+                                if self.schema[pos] == "(":
+                                    stack.append(1)  #
+                                elif self.schema[pos] == ")":
+                                    stack.pop()
+                                    if (
+                                        not stack
+                                    ):  # If stack is empty, all parentheses are balanced
+                                        break
+                            text = self.schema[self.position : pos + 1]
+                            pos += 1
                         # Add position to token
                         self.tokens.append((token_type, text, self.position))
-                    self.position += len(match.group())  # Update position
+                    self.position = pos  # Update position
                     break
             else:
                 raise ValueError(f"Unknown token at {self.position}")

@@ -19,8 +19,8 @@ def start(file_path):
 def main():
     # file_path = 'schema_scripts/Le Tour 2023-schema.sql'
     # file_path = 'schema_scripts/AISSchema.sql'
-    # file_path = "schema_scripts/mondialSchema.sql"
-    file_path = "schema_scripts/weird.sql"
+    file_path = "schema_scripts/mondialSchema.sql"
+    # file_path = "schema_scripts/weird.sql"
     queries = start(file_path)
     print("\nOutput from Parser:\n")
     # for query in queries:

@@ -1,8 +1,8 @@
-from .common import Table
+from .common import Table, Token
 
 
 class Translator:
-    def generate_triggers(self, tables: list[Table]) -> list[str]:
+    def generate_triggers(self, tables: list[Table]) -> str:
         """
         Generates triggers and respective trigger functions from parser output.
         """
@@ -30,5 +30,10 @@ class Translator:
                 '''
                 triggers.append(trigger)
 
-        print(*triggers, sep="\n")
-        return triggers
+        trigger_code = '\n'.join(triggers)
+        return trigger_code
+
+    def rebuild_create_tables(self, tokens: list[Token]) -> str:
+        create_tables_code = ' '.join([t[1] for t in tokens])
+        formatted_create_tables_code = create_tables_code.replace(";", ";\n")
+        return formatted_create_tables_code

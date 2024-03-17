@@ -3,7 +3,7 @@ from pkg.parser import Parser
 from pkg.translator import Translator
 
 
-def start(file_path):
+def start(file_path, output_file):
     with open(file_path, "r") as file:
         sql_content = file.read()
     lexer = Lexer(sql_content)
@@ -20,20 +20,26 @@ def start(file_path):
 
     translator = Translator()
     triggers = translator.generate_triggers(tables)
-    ddl = translator.rebuild_create_tables(tokens)
-    print(ddl)
-    print(triggers)
+    ddl = translator.rebuild_create_tables(filtered_tokens, triggers)
+    # print(ddl)
+    # print(triggers)
+
+    with open(output_file, "w") as file:
+        file.write(ddl)
 
     return tables
 
 
 def main():
+    output_file = "output.sql"
+
     # file_path = 'schema_scripts/Le Tour 2023-schema.sql'
     # file_path = 'schema_scripts/AISSchema.sql'
-    file_path = "schema_scripts/mondialSchema.sql"
-    # file_path = "schema_scripts/simple.sql"
+    # file_path = "schema_scripts/mondialSchema.sql"
+    file_path = "schema_scripts/simple.sql"
     # file_path = "schema_scripts/weird.sql"
-    queries = start(file_path)
+    queries = start(file_path, output_file)
+    
     # print("\nOutput from Parser:\n")
     # for query in queries:
     #     print('\n', query)

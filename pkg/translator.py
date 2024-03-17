@@ -7,19 +7,22 @@ class Translator:
         Generates triggers and respective trigger functions from parser output.
         """
         triggers = []
-        print(tables)
         for table in tables:
             for constraint in table.constraints:
                 if not constraint.constraint_name:
                     # generate a name for the constraint if not provided
-                    constraint.constraint_name = f"{table.table_name}_{hash(constraint.expression) % 100000}" # hash the expression to get a unique name
+                    constraint.constraint_name = f"{table.table_name}_{hash(constraint.expression) % 100000}"  # hash the expression to get a unique name
+                # Trigger syntax: Replace all mentions of a column in the check constraint expression and replace with NEW.column
+                constraint_expression_with_new = constraint.expression
+                for column in table.column_names:
+                    constraint_expression_with_new = constraint_expression_with_new.replace(column, "NEW." + column)
 
                 trigger = f'''
                     --- Trigger ---
                     CREATE OR REPLACE FUNCTION {constraint.constraint_name}()
                     RETURNS TRIGGER AS $$
                     BEGIN
-                        IF NOT ({constraint.expression}) THEN
+                        IF NOT ({constraint_expression_with_new}) THEN
                             RAISE EXCEPTION \'{constraint.constraint_name} constraint violated\';
                         END IF;
                         RETURN NEW;

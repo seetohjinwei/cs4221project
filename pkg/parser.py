@@ -167,5 +167,28 @@ class Parser:
             elif token_type != CHECK:
                 filtered_tokens.append(token)
             iter += 1
-        
-        return filtered_tokens
+
+        return self.remove_extra_commas(filtered_tokens)
+
+    def remove_extra_commas(self, tokens: list[Token]) -> list[Token] :
+        """
+        Removes extra commas left in the script after filtering out the check and constraint tokens.
+        A comma cannot exist after an open parenthesis, beside another comma, or before a close parenthesis.
+        """
+        cleaned_tokens = []
+        i = 0
+        while i < len(tokens):
+            curr = tokens[i]
+            curr_type = curr[0]
+            if curr_type == "COMMA":
+                prev = cleaned_tokens[-1] # comma will never be the last char in a validated schema so it is safe to do this
+                prev_type = prev[0]
+                next = tokens[i + 1] # comma will never be the last char in a validated schema so it is safe to do this
+                next_type = next[0]
+                if prev_type != "OPEN_PAREN" and next_type != "COMMA" and next_type != "CLOSE_PAREN":            
+                    cleaned_tokens.append(curr)
+            else:
+                cleaned_tokens.append(curr)
+            i += 1
+
+        return cleaned_tokens

@@ -45,26 +45,7 @@ class Translator:
         if filtered_tokens[-1][1] != ";":
             filtered_tokens.append(("SEMICOLON", ";", -1))
 
-        # if there are consecutive '-' (they are comments), join the tokens
-        joined_tokens = []
-        i = 0
-        while i < len(filtered_tokens):
-            if filtered_tokens[i][1] == '-':
-                # Start of comment, concatenate all consecutive '-' tokens
-                temp_str = filtered_tokens[i][1]
-                i += 1
-                while i < len(filtered_tokens) and filtered_tokens[i][1] == '-':
-                    temp_str += filtered_tokens[i][1]
-                    i += 1
-                # After collecting all '-', append the complete comment as one string
-                joined_tokens.append(temp_str)
-                # No need to increment i here, as it's already at the next position
-            else:
-                joined_tokens.append(filtered_tokens[i][1])
-                i += 1
-        
-
-        create_tables_code = ' '.join(joined_tokens)
+        create_tables_code = ' '.join([t[1] for t in filtered_tokens])
         formatted_create_tables_code = create_tables_code.replace(";", ";\n")
         formatted_create_tables_code += f"\n\n{triggers}"
         return formatted_create_tables_code

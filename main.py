@@ -35,14 +35,15 @@ def main():
 
     # file_path = 'schema_scripts/Le Tour 2023-schema.sql'
     # file_path = 'schema_scripts/AISSchema.sql'
-    file_path = "schema_scripts/mondialSchema.sql"
+    # file_path = "schema_scripts/mondialSchema.sql"
     # file_path = "schema_scripts/simple.sql"
     # file_path = "schema_scripts/weird.sql"
+    file_path = "schema_scripts/test_schema.sql"
     queries = start(file_path, output_file)
     
-    # print("\nOutput from Parser:\n")
-    # for query in queries:
-    #     print('\n', query)
+    print("\nOutput from Parser:\n")
+    for query in queries:
+        print('\n', query)
 
 
 if __name__ == "__main__":

@@ -31,14 +31,14 @@ def start(file_path, output_file):
 
 
 def main():
-    output_file = "output.sql"
+    output_file = "benchmark/bench_data/transformed.sql"
 
     # file_path = 'schema_scripts/Le Tour 2023-schema.sql'
     # file_path = 'schema_scripts/AISSchema.sql'
     # file_path = "schema_scripts/mondialSchema.sql"
     # file_path = "schema_scripts/simple.sql"
     # file_path = "schema_scripts/weird.sql"
-    file_path = "schema_scripts/test_schema.sql"
+    file_path = "benchmark/bench_data/schema/original.sql"
     queries = start(file_path, output_file)
     
     print("\nOutput from Parser:\n")

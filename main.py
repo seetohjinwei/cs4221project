@@ -1,7 +1,8 @@
 from pkg.lexer import Lexer
 from pkg.parser import Parser
 from pkg.translator import Translator
-
+import sys
+import getopt
 
 def start(file_path, output_file):
     with open(file_path, "r") as file:
@@ -29,22 +30,29 @@ def start(file_path, output_file):
 
     return tables
 
+# takes in input and output from command line
+def usage():
+    print("usage: " + sys.argv[0] + " -i [input-file] -o [output-file]")
+    print("example: " + sys.argv[0] + " -i input.sql -o output.sql")
 
-def main():
-    output_file = "benchmark/bench_data/transformed.sql"
+input_file = output_file = None
 
-    # file_path = 'schema_scripts/Le Tour 2023-schema.sql'
-    # file_path = 'schema_scripts/AISSchema.sql'
-    # file_path = "schema_scripts/mondialSchema.sql"
-    # file_path = "schema_scripts/simple.sql"
-    # file_path = "schema_scripts/weird.sql"
-    file_path = "benchmark/bench_data/schema/original.sql"
-    queries = start(file_path, output_file)
-    
-    print("\nOutput from Parser:\n")
-    for query in queries:
-        print('\n', query)
+try:
+    options, args = getopt.getopt(sys.argv[1:], 'i:o:')
+except getopt.GetoptError:
+    usage()
+    sys.exit(2)
+for opt, arg in options:
+    if opt == '-i':
+        input_file = arg
+    elif opt == '-o':
+        output_file = arg
+    else:
+        usage()
+        sys.exit(2)
 
+if input_file == None or output_file == None:
+    usage()
+    sys.exit(2)
 
-if __name__ == "__main__":
-    main()
+start(input_file, output_file)

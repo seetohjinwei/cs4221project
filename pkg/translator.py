@@ -1,3 +1,5 @@
+import re
+
 from .common import Table, Token
 
 
@@ -15,7 +17,7 @@ class Translator:
                 # Trigger syntax: Replace all mentions of a column in the check constraint expression and replace with NEW.column
                 constraint_expression_with_new = constraint.expression
                 for column in table.column_names:
-                    constraint_expression_with_new = constraint_expression_with_new.replace(column, "NEW." + column)
+                    constraint_expression_with_new = re.sub(r'\b' + column + r'\b', "NEW." + column, constraint_expression_with_new)
 
                 trigger = f'''
                     --- Trigger ---

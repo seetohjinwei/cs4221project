@@ -5,7 +5,7 @@ CREATE TABLE Usernames (
 
 CREATE TABLE Students (
     s_id INT PRIMARY KEY,
-    grade CHAR(1) CHECK (grade IN ('A', 'B', 'C', 'D', 'E', F'))
+    grade CHAR(1) CHECK (grade IN ('A', 'B', 'C', 'D', 'E', 'F'))
 );
 
 CREATE TABLE Products (

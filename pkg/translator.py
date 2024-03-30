@@ -1,3 +1,4 @@
+import textwrap
 from .common import Table, Token
 
 
@@ -35,7 +36,8 @@ class Translator:
                     EXECUTE FUNCTION {constraint.constraint_name}();
                     ---------------
                 '''
-                triggers.append(trigger)
+                formatted_trigger = textwrap.dedent(trigger).strip()
+                triggers.append(formatted_trigger)
 
         trigger_code = '\n'.join(triggers)
         return trigger_code

@@ -1,4 +1,4 @@
-CREATE TABLE customers ( customer_id SERIAL PRIMARY KEY , name VARCHAR(255) NOT NULL , address VARCHAR(255) NOT NULL , phone_number VARCHAR(20) , email VARCHAR(255) UNIQUE NOT NULL ) ;
+CREATE TABLE customers ( customer_id SERIAL PRIMARY KEY , name VARCHAR(255) NOT NULL , address VARCHAR(255) NOT NULL , phone_number VARCHAR(20) , email VARCHAR(255) NOT NULL ) ;
  CREATE TABLE employees ( employee_id SERIAL PRIMARY KEY , first_name VARCHAR(255) NOT NULL , last_name VARCHAR(255) NOT NULL , position VARCHAR(255) NOT NULL , hire_date DATE NOT NULL , salary NUMERIC ) ;
  CREATE TABLE ships ( ship_id SERIAL PRIMARY KEY , name VARCHAR(255) NOT NULL , capacity NUMERIC NOT NULL , year_built INT ) ;
  CREATE TABLE routes ( route_id SERIAL PRIMARY KEY , origin VARCHAR(255) NOT NULL , destination VARCHAR(255) NOT NULL , estimated_days INT ) ;

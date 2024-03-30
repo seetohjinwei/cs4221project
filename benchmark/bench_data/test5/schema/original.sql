@@ -3,7 +3,7 @@ CREATE TABLE customers (
     name VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20),
-    email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL,
     CHECK (char_length(phone_number) >= 10)
 );
 

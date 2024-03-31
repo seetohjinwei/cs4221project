@@ -4,7 +4,7 @@ NUM_OF_ROWS = 10000
 
 def generate_inserts(violation_rate, num_rows, output_file):
     with open(output_file, "w") as file:
-        failed_inserts = num_rows * violation_rate
+        failed_inserts = num_rows * violation_rate // 100
         passed_inserts = num_rows - failed_inserts
         for _ in range(failed_inserts):
             file.write(generate_violating_value() + '\n')
@@ -34,10 +34,10 @@ def generate_valid_value():
     return random.choice(list_of_valid_values)
 
 def main():
-    generate_inserts(0, NUM_OF_ROWS, "./data/data_0.sql")
-    generate_inserts(25, NUM_OF_ROWS, "./data/data_25.sql")
-    generate_inserts(50, NUM_OF_ROWS, "./data/data_50.sql")
-    generate_inserts(75, NUM_OF_ROWS, "./data/data_75.sql")
+    generate_inserts(0, NUM_OF_ROWS, "./data/data_000.sql")
+    generate_inserts(25, NUM_OF_ROWS, "./data/data_025.sql")
+    generate_inserts(50, NUM_OF_ROWS, "./data/data_050.sql")
+    generate_inserts(75, NUM_OF_ROWS, "./data/data_075.sql")
     generate_inserts(100, NUM_OF_ROWS, "./data/data_100.sql")
 
 
